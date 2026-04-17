@@ -1,10 +1,8 @@
-# Tideo Product Hub
+# Product Doc Hub
 
 > PRD + 产品简介 + 体验框架 + API 调试台，四合一产品知识聚合器
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/ildar981105-create/tideo-product-hub)](https://github.com/ildar981105-create/tideo-product-hub/stargazers)
-[![GitHub topics](https://img.shields.io/github/topics/codebuddy-skill)](https://github.com/topics/codebuddy-skill)
 
 ## 🎯 5 分钟上手
 
@@ -59,4 +57,4 @@
 
 ## License
 
-MIT © Tideo
+MIT

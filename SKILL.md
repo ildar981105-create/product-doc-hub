@@ -1,9 +1,9 @@
 ---
-name: tideo-product-hub
+name: product-doc-hub
 description: "This skill provides a complete product documentation hub including PRD (Product Requirements Document), Product Brief, Experience Framework, and API Console pages. Use this skill when the user needs to write PRD, create product documentation, build an experience framework for UX testing, design an API console/debugger, set up a product knowledge base, or create investor-facing product materials."
 ---
 
-# Tideo Product Hub Skill — 产品知识库聚合器 v2（API Console 可配置版）
+# Product Doc Hub Skill — 产品知识库聚合器 v2（API Console 可配置版）
 
 ## 🎯 5 分钟上手
 
@@ -53,13 +53,13 @@ description: "This skill provides a complete product documentation hub including
 
 本 Skill 提供一套**可配置的产品文档黄页**，包含 PRD/Brief/体验框架/API调试台四类页面。
 
-| 页面 | 文件 | 行数 | 用途 | 定制方式 |
-|------|------|------|------|---------|
-| **PRD** | `prd.html` | 393 | 功能规格说明书 | 内容替换 |
-| **产品简介** | `product-brief.html` | 262 | 面向投资人轻量介绍 | 内容替换 |
-| **体验框架** | `experience-framework.html` | 2497 | AI产品体验验证方法论 | 章节模板 |
-| **API 控制台** | `api.html` | 1333 | 12端点在线调试 | **配置化** ⭐ |
-| **Hub 导航** | `hub.html` | 189 | 四页面导航入口 | 内容替换 |
+| 页面 | 文件 | 用途 | 定制方式 |
+|------|------|------|---------|
+| **PRD** | `prd.html` | 功能规格说明书 | 内容替换 |
+| **产品简介** | `product-brief.html` | 面向投资人轻量介绍 | 内容替换 |
+| **体验框架** | `experience-framework.html` | AI产品体验验证方法论 | 章节模板 |
+| **API 控制台** | `api.html` | 在线 API 调试 | **配置化** ⭐ |
+| **Hub 导航** | `hub.html` | 四页面导航入口 | 内容替换 |
 
 ---
 
@@ -116,12 +116,12 @@ description: "This skill provides a complete product documentation hub including
 
 | 字段 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
-| `productName` | string | `'Tideo'` | 页面标题 |
+| `productName` | string | `'本产品'` | 页面标题 |
 | `baseUrl` | string | — | API 基础地址 |
 | `timeout` | number | `30000` | 请求超时（ms） |
 | `showStats` | boolean | `true` | 是否显示统计卡片 |
 | `initialStats` | object | 见下方 | 初始统计数据 |
-| `groups` | array | Tideo 12端点 | 端点分组列表 |
+| `groups` | array | 内置默认 | 端点分组列表 |
 | `theme` | string | `'dark'` | `'dark'` / `'light'` |
 
 **initialStats 默认值**：
@@ -159,7 +159,7 @@ description: "This skill provides a complete product documentation hub including
 ## 文件结构
 
 ```
-tideo-product-hub/
+product-doc-hub/
 ├── SKILL.md                          # 本文档
 └── assets/
     ├── prd.html                     # 产品需求文档（可直接修改内容）
@@ -178,14 +178,14 @@ tideo-product-hub/
 ### PRD 定制（最快）
 
 1. 复制 `prd.html` 作为 `my-product-prd.html`
-2. 全局替换 "Tideo" → "我的产品"
+2. 全局替换产品名称为"我的产品"
 3. 修改各章节的功能规格描述
 4. 保留 Callout / Flow / 目录等组件结构
 
 ### Brief 定制
 
 1. 复制 `product-brief.html` 作为 `my-product-brief.html`
-2. 全局替换 "Tideo" → "我的产品"
+2. 全局替换产品名称为"我的产品"
 3. 修改产品定位、目标用户、核心流程
 4. 调整功能状态表（已完成 → 进行中 → 待开发）
 
@@ -238,7 +238,7 @@ border: rgba(255,255,255,0.05~0.10)
 
 ### 定制检查清单
 
-- [ ] 全局替换 "Tideo" 为新产品名
+- [ ] 全局替换产品名称为新产品名
 - [ ] 更新 Brief 的产品定义和目标用户
 - [ ] 重写 PRD 的功能规格（保留章节结构）
 - [ ] 调整 EF 的四维模型内容（保留验证方法论）
@@ -251,10 +251,10 @@ border: rgba(255,255,255,0.05~0.10)
 ## 发布到 GitHub
 
 ```bash
-cd ~/.codebuddy/skills/tideo-product-hub
+cd ~/.codebuddy/skills/product-doc-hub
 git init
 git add .
-git commit -m "feat: tideo-product-hub v2"
-git remote add origin https://github.com/YOUR_USERNAME/tideo-product-hub.git
+git commit -m "feat: product-doc-hub v2"
+git remote add origin https://github.com/YOUR_USERNAME/product-doc-hub.git
 git push -u origin main
 ```
