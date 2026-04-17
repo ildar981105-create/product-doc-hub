@@ -1,0 +1,216 @@
+---
+name: tideo-product-hub
+description: "This skill provides a complete product documentation hub including PRD (Product Requirements Document), Product Brief, Experience Framework, and API Console pages. Use this skill when the user needs to write PRD, create product documentation, build an experience framework for UX testing, design an API console/debugger, set up a product knowledge base, or create investor-facing product materials."
+---
+
+# Tideo Product Hub Skill — 产品知识库聚合器 v2（API Console 可配置版）
+
+## 概述
+
+本 Skill 提供一套**可配置的产品文档黄页**，包含 PRD/Brief/体验框架/API调试台四类页面。
+
+| 页面 | 文件 | 行数 | 用途 | 定制方式 |
+|------|------|------|------|---------|
+| **PRD** | `prd.html` | 393 | 功能规格说明书 | 内容替换 |
+| **产品简介** | `product-brief.html` | 262 | 面向投资人轻量介绍 | 内容替换 |
+| **体验框架** | `experience-framework.html` | 2497 | AI产品体验验证方法论 | 章节模板 |
+| **API 控制台** | `api.html` | 1333 | 12端点在线调试 | **配置化** ⭐ |
+| **Hub 导航** | `hub.html` | 189 | 四页面导航入口 | 内容替换 |
+
+---
+
+## ⭐ API Console 配置化（重点）
+
+### 快速使用
+
+```html
+<!-- Step 1: 引入配置 -->
+<script src="api-console-config.js"></script>
+
+<!-- Step 2: 修改配置 -->
+<script>
+  window.API_CONSOLE_CONFIG.productName = '我的产品';
+  window.API_CONSOLE_CONFIG.baseUrl = 'https://api.my-product.com';
+
+  // 修改端点列表
+  window.API_CONSOLE_CONFIG.groups = [
+    {
+      name: '用户模块',
+      icon: '<svg ...>',          // 可选 SVG
+      apis: [
+        {
+          method: 'POST',
+          path: '/users',
+          desc: '创建用户',
+          params: [
+            { name: 'name',     type: 'text',   required: true,  desc: '用户名' },
+            { name: 'email',    type: 'text',   required: true,  desc: '邮箱' },
+            { name: 'role',     type: 'select', required: false, default: 'user',
+              options: ['user','admin','vip'], desc: '用户角色' }
+          ]
+        },
+        {
+          method: 'GET',
+          path: '/users/:id',
+          desc: '查询用户详情',
+          params: [
+            { name: 'id', type: 'text', required: true, desc: '用户 ID' }
+          ]
+        }
+      ]
+    }
+  ];
+</script>
+
+<!-- Step 3: 引入页面 -->
+<script src="api.html"></script>
+```
+
+页面会自动读取 `API_CONSOLE_CONFIG` 并渲染端点列表、发送请求。
+
+### API_CONSOLE_CONFIG 完整字段
+
+| 字段 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `productName` | string | `'Tideo'` | 页面标题 |
+| `baseUrl` | string | — | API 基础地址 |
+| `timeout` | number | `30000` | 请求超时（ms） |
+| `showStats` | boolean | `true` | 是否显示统计卡片 |
+| `initialStats` | object | 见下方 | 初始统计数据 |
+| `groups` | array | Tideo 12端点 | 端点分组列表 |
+| `theme` | string | `'dark'` | `'dark'` / `'light'` |
+
+**initialStats 默认值**：
+```javascript
+{
+  totalCalls: 0,    // 总调用次数
+  successRate: 100, // 成功率%
+  avgLatency: 0,   // 平均延迟ms
+  activeTasks: 0   // 活跃任务数
+}
+```
+
+### 端点参数格式
+
+```javascript
+{
+  method:   'GET' | 'POST' | 'PUT' | 'DELETE',
+  path:     '/endpoint/:param',      // :param 会被识别为路径参数
+  desc:     '端点描述',
+  params: [                           // 请求参数（用于构造器）
+    {
+      name:     'paramName',          // 参数名
+      type:     'text' | 'file' | 'select',
+      required: true | false,
+      default:  '默认值',              // 可选
+      options:  ['a','b','c'],         // type=select 时必填
+      desc:     '参数说明'              // 可选
+    }
+  ]
+}
+```
+
+---
+
+## 文件结构
+
+```
+tideo-product-hub/
+├── SKILL.md                          # 本文档
+└── assets/
+    ├── prd.html                     # 产品需求文档（可直接修改内容）
+    ├── product-brief.html            # 产品简介（可直接修改内容）
+    ├── experience-framework.html    # 体验框架（保留结构换内容）
+    ├── api.html                      # API 调试台（配置化）
+    ├── api-console-config.js         # API Console 配置模板 ⭐
+    ├── hub.html                      # Hub 导航页
+    └── (其他产品文档资源)
+```
+
+---
+
+## PRD / Brief 定制指南
+
+### PRD 定制（最快）
+
+1. 复制 `prd.html` 作为 `my-product-prd.html`
+2. 全局替换 "Tideo" → "我的产品"
+3. 修改各章节的功能规格描述
+4. 保留 Callout / Flow / 目录等组件结构
+
+### Brief 定制
+
+1. 复制 `product-brief.html` 作为 `my-product-brief.html`
+2. 全局替换 "Tideo" → "我的产品"
+3. 修改产品定位、目标用户、核心流程
+4. 调整功能状态表（已完成 → 进行中 → 待开发）
+
+### 体验框架 定制
+
+1. 复制 `experience-framework.html` 作为 `my-ef.html`
+2. 保留"四维体验验证模型"的结构框架
+3. 替换每个维度的具体内容为新产品的设计策略
+4. 更新 SUS/EV/SAM/NPS 的具体题目文本
+5. 调整埋点指标映射
+
+---
+
+## 设计系统（四个页面共享）
+
+### 暗色主题变量
+
+```css
+background: #08080c
+surface: rgba(255,255,255,0.02~0.08)
+text-primary: #e2e8f0
+text-secondary: #94a3b8
+accent-blue: #818cf8
+accent-green: #10b981
+accent-amber: #f59e0b
+accent-purple: #a855f7
+border: rgba(255,255,255,0.05~0.10)
+```
+
+### 通用组件类
+
+| 组件 | CSS 类 | 说明 |
+|------|--------|------|
+| Callout | `.callout .callout-blue/green/yellow/purple` | 左色条信息卡片 |
+| Flow 步骤 | `.flow-step` + `.flow-arrow` | 流程图 |
+| 表格 | 标准 `<table>` + th/td | 数据表格 |
+| 代码 | `<code>` 半透明底 | 内联代码 |
+| 等宽框 | `.diagram` | ASCII 架构图 |
+
+---
+
+## 如何为新产品构建 Product Hub
+
+### 推荐顺序
+
+1. **Brief 先行**（半天）— 写清楚"为什么做"，给所有人看
+2. **PRD 跟进**（1-2天）— 写清楚"做什么怎么做"，给实现团队
+3. **EF 并行**（1-2天）— 同时设计体验验证方案
+4. **API Console 最后**（1小时配置）— 有接口了再配置端点
+
+### 定制检查清单
+
+- [ ] 全局替换 "Tideo" 为新产品名
+- [ ] 更新 Brief 的产品定义和目标用户
+- [ ] 重写 PRD 的功能规格（保留章节结构）
+- [ ] 调整 EF 的四维模型内容（保留验证方法论）
+- [ ] 更新 API Console 的 `groups` 端点列表
+- [ ] 调整配色（如果品牌色不同）
+- [ ] 更新版本号和日期
+
+---
+
+## 发布到 GitHub
+
+```bash
+cd ~/.codebuddy/skills/tideo-product-hub
+git init
+git add .
+git commit -m "feat: tideo-product-hub v2"
+git remote add origin https://github.com/YOUR_USERNAME/tideo-product-hub.git
+git push -u origin main
+```
